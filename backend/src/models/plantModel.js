@@ -5,6 +5,10 @@ const plantSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  originalName: {
+    type: String,
+    required: true,
+  },
   photo: {
     type: String,
     required: true,

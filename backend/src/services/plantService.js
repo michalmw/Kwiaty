@@ -6,7 +6,12 @@ const filePath = path.join(__dirname, "plants.json");
 class PlantService {
   async createPlant(data) {
     const plants = await this.getAllPlants();
-    const newPlant = { id: Date.now().toString(), ...data, completedDates: {} };
+    const newPlant = {
+      id: Date.now().toString(),
+      ...data,
+      completedDates: {},
+      originalName: data.name,
+    };
     plants.push(newPlant);
     await this.savePlants(plants);
     return newPlant;

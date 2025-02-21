@@ -7,6 +7,7 @@ class PlantController {
     try {
       const {
         name,
+        originalName, // New field
         wateringRepeat,
         mistingRepeat,
         nextWateringDate,
@@ -15,6 +16,7 @@ class PlantController {
       const photo = req.file ? `/uploads/${req.file.filename}` : null;
       const newPlant = await this.plantService.createPlant({
         name,
+        originalName, // New field
         photo,
         wateringRepeat,
         mistingRepeat,
@@ -87,6 +89,7 @@ class PlantController {
       const { id } = req.params;
       const {
         name,
+        originalName, // New field
         wateringRepeat,
         mistingRepeat,
         nextWateringDate,
@@ -95,6 +98,7 @@ class PlantController {
       const photo = req.file ? `/uploads/${req.file.filename}` : null;
       const updatedPlant = await this.plantService.updatePlant(id, {
         name,
+        originalName, // New field
         photo,
         wateringRepeat,
         mistingRepeat,

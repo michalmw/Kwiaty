@@ -17,6 +17,7 @@ const EditPlantForm = ({ plants, setPlants }) => {
   const plant = plants.find((plant) => plant.id === id);
   const [formData, setFormData] = useState({
     name: "",
+    originalName: "", // New field
     wateringRepeat: "",
     mistingRepeat: "",
     nextWateringDate: "",
@@ -28,6 +29,7 @@ const EditPlantForm = ({ plants, setPlants }) => {
     if (plant) {
       setFormData({
         name: plant.name,
+        originalName: plant.originalName, // New field
         wateringRepeat: plant.wateringRepeat,
         mistingRepeat: plant.mistingRepeat,
         nextWateringDate: plant.nextWateringDate,
@@ -56,12 +58,15 @@ const EditPlantForm = ({ plants, setPlants }) => {
     e.preventDefault();
     const updatedPlantData = new FormData();
     updatedPlantData.append("name", formData.name);
+    updatedPlantData.append("originalName", formData.originalName); // New field
     updatedPlantData.append("wateringRepeat", formData.wateringRepeat);
     updatedPlantData.append("mistingRepeat", formData.mistingRepeat);
     updatedPlantData.append("nextWateringDate", formData.nextWateringDate);
     updatedPlantData.append("nextMistingDate", formData.nextMistingDate);
     if (formData.photo instanceof File) {
       updatedPlantData.append("photo", formData.photo);
+    } else {
+      updatedPlantData.append("photo", plant.photo); // Retain existing photo
     }
 
     try {
@@ -99,6 +104,14 @@ const EditPlantForm = ({ plants, setPlants }) => {
               label="Name"
               name="name"
               value={formData.name}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Original Name"
+              name="originalName"
+              value={formData.originalName}
               onChange={handleChange}
               fullWidth
               margin="normal"

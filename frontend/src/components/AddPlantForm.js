@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 const AddPlantForm = ({ onAddPlant }) => {
   const [formData, setFormData] = useState({
     name: "",
+    originalName: "", // New field
     photo: null,
     wateringRepeat: "",
     mistingRepeat: "",
@@ -36,6 +37,7 @@ const AddPlantForm = ({ onAddPlant }) => {
     onAddPlant(data);
     setFormData({
       name: "",
+      originalName: "", // Reset new field
       photo: null,
       wateringRepeat: "",
       mistingRepeat: "",
@@ -60,6 +62,15 @@ const AddPlantForm = ({ onAddPlant }) => {
           label="Plant Name"
           name="name"
           value={formData.name}
+          onChange={handleChange}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Original Name"
+          name="originalName"
+          value={formData.originalName}
           onChange={handleChange}
           required
           fullWidth

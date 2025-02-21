@@ -182,6 +182,9 @@ const PlantDetails = ({ plants, setPlants }) => {
             <MenuItem onClick={handleOpenDialog}>Delete Plant</MenuItem>
           </Menu>
           <Typography variant="h6" gutterBottom>
+            Original Name: {plant.originalName}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
             Next Watering Dates:
           </Typography>
           <List>
