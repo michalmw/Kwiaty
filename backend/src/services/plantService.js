@@ -102,7 +102,14 @@ class PlantService {
     const plants = await this.getAllPlants();
     const plantIndex = plants.findIndex((plant) => plant.id === id);
     if (plantIndex !== -1) {
-      const updatedPlant = { ...plants[plantIndex], ...data };
+      const updatedPlant = {
+        ...plants[plantIndex],
+        ...data,
+        photo: data.photo ? data.photo : plants[plantIndex].photo,
+      };
+      if (data.photo && typeof data.photo === "string") {
+        updatedPlant.photo = data.photo;
+      }
       plants[plantIndex] = updatedPlant;
       await this.savePlants(plants);
       return updatedPlant;
