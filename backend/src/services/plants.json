@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1740139829746",
+    "name": "test3",
+    "photo": "/uploads/1740139829741-10683327.png",
+    "wateringRepeat": "2",
+    "mistingRepeat": "3",
+    "nextWateringDate": "2025-02-21",
+    "nextMistingDate": "2025-02-21",
+    "completedDates": {
+      "2025-02-20": {
+        "watering": true
+      },
+      "2025-02-21": {
+        "watering": true,
+        "misting": true
+      }
+    }
+  },
+  {
+    "id": "1740140323767",
+    "name": "qq",
+    "photo": "/uploads/1740144501735-Screenshot 2025-02-21 at 14.22.41.png",
+    "wateringRepeat": "1",
+    "mistingRepeat": "1",
+    "nextWateringDate": "2025-02-22",
+    "nextMistingDate": "2025-02-22",
+    "completedDates": {
+      "2025-02-23": {
+        "watering": false
+      }
+    }
+  }
+]
