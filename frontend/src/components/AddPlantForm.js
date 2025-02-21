@@ -1,30 +1,47 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
+import PropTypes from "prop-types";
 
 const AddPlantForm = ({ onAddPlant }) => {
-  const [name, setName] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [wateringRepeat, setWateringRepeat] = useState("");
-  const [mistingRepeat, setMistingRepeat] = useState("");
-  const [nextWateringDate, setNextWateringDate] = useState("");
-  const [nextMistingDate, setNextMistingDate] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    photo: null,
+    wateringRepeat: "",
+    mistingRepeat: "",
+    nextWateringDate: "",
+    nextMistingDate: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      photo: e.target.files[0],
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("photo", photo);
-    formData.append("wateringRepeat", wateringRepeat);
-    formData.append("mistingRepeat", mistingRepeat);
-    formData.append("nextWateringDate", nextWateringDate);
-    formData.append("nextMistingDate", nextMistingDate);
-    onAddPlant(formData);
-    setName("");
-    setPhoto(null);
-    setWateringRepeat("");
-    setMistingRepeat("");
-    setNextWateringDate("");
-    setNextMistingDate("");
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      data.append(key, formData[key]);
+    });
+    onAddPlant(data);
+    setFormData({
+      name: "",
+      photo: null,
+      wateringRepeat: "",
+      mistingRepeat: "",
+      nextWateringDate: "",
+      nextMistingDate: "",
+    });
   };
 
   const calculateNextDates = (repeat, setDate) => {
@@ -41,24 +58,31 @@ const AddPlantForm = ({ onAddPlant }) => {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <TextField
           label="Plant Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
           required
           fullWidth
           margin="normal"
         />
         <input
           type="file"
-          onChange={(e) => setPhoto(e.target.files[0])}
+          onChange={handleFileChange}
           required
           style={{ margin: "20px 0" }}
         />
         <TextField
           label="Watering Repeat (days)"
-          value={wateringRepeat}
+          name="wateringRepeat"
+          value={formData.wateringRepeat}
           onChange={(e) => {
-            setWateringRepeat(e.target.value);
-            calculateNextDates(e.target.value, setNextWateringDate);
+            handleChange(e);
+            calculateNextDates(e.target.value, (date) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                nextWateringDate: date,
+              }))
+            );
           }}
           required
           fullWidth
@@ -66,10 +90,16 @@ const AddPlantForm = ({ onAddPlant }) => {
         />
         <TextField
           label="Misting Repeat (days)"
-          value={mistingRepeat}
+          name="mistingRepeat"
+          value={formData.mistingRepeat}
           onChange={(e) => {
-            setMistingRepeat(e.target.value);
-            calculateNextDates(e.target.value, setNextMistingDate);
+            handleChange(e);
+            calculateNextDates(e.target.value, (date) =>
+              setFormData((prevData) => ({
+                ...prevData,
+                nextMistingDate: date,
+              }))
+            );
           }}
           required
           fullWidth
@@ -77,14 +107,16 @@ const AddPlantForm = ({ onAddPlant }) => {
         />
         <TextField
           label="Next Watering Date"
-          value={nextWateringDate}
+          name="nextWateringDate"
+          value={formData.nextWateringDate}
           disabled
           fullWidth
           margin="normal"
         />
         <TextField
           label="Next Misting Date"
-          value={nextMistingDate}
+          name="nextMistingDate"
+          value={formData.nextMistingDate}
           disabled
           fullWidth
           margin="normal"
@@ -95,6 +127,10 @@ const AddPlantForm = ({ onAddPlant }) => {
       </form>
     </Container>
   );
+};
+
+AddPlantForm.propTypes = {
+  onAddPlant: PropTypes.func.isRequired,
 };
 
 export default AddPlantForm;

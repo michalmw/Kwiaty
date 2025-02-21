@@ -16,15 +16,15 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActions,
   CardHeader,
   IconButton,
   Menu,
   MenuItem,
-  Button, // Add this import
+  Button,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const PlantDetails = ({ plants, setPlants }) => {
   const { id } = useParams();
@@ -299,6 +299,11 @@ const PlantDetails = ({ plants, setPlants }) => {
       </Dialog>
     </Container>
   );
+};
+
+PlantDetails.propTypes = {
+  plants: PropTypes.array.isRequired,
+  setPlants: PropTypes.func.isRequired,
 };
 
 export default PlantDetails;

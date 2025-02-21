@@ -28,6 +28,9 @@
     "completedDates": {
       "2025-02-23": {
         "watering": false
+      },
+      "2025-02-22": {
+        "watering": true
       }
     }
   }

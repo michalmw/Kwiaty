@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 import AddPlantForm from "./components/AddPlantForm";
@@ -7,6 +6,7 @@ import PlantList from "./components/PlantList";
 import PlantDetails from "./components/PlantDetails";
 import EditPlantForm from "./components/EditPlantForm";
 import Dashboard from "./components/Dashboard";
+import { getPlants, addPlant } from "./services/plantService";
 
 const App = () => {
   const [plants, setPlants] = useState([]);
@@ -17,25 +17,17 @@ const App = () => {
 
   const fetchPlants = async () => {
     try {
-      const response = await axios.get("http://localhost:4201/api/plants");
-      setPlants(response.data);
+      const data = await getPlants();
+      setPlants(data);
     } catch (error) {
       console.error("Error fetching plants:", error);
     }
   };
 
-  const addPlant = async (formData) => {
+  const handleAddPlant = async (formData) => {
     try {
-      const response = await axios.post(
-        "http://localhost:4201/api/plants",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setPlants([...plants, response.data]);
+      const newPlant = await addPlant(formData);
+      setPlants([...plants, newPlant]);
     } catch (error) {
       console.error("Error adding plant:", error);
     }
@@ -68,7 +60,7 @@ const App = () => {
             <PlantList plants={plants} />
           </Route>
           <Route path="/new">
-            <AddPlantForm onAddPlant={addPlant} />
+            <AddPlantForm onAddPlant={handleAddPlant} />
           </Route>
           <Route path="/plants/:id">
             <PlantDetails plants={plants} setPlants={setPlants} />
